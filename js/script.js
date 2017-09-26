@@ -1,13 +1,13 @@
 var isMenuVisible = false;
-$('#menu').click(function() {
+$("#menu").click(function() {
     if(!isMenuVisible) {
         isMenuVisible = true;
-        $('#searchSection').removeClass('hide');
-        $('#searchSection').addClass('show');
+        $("#searchSection").removeClass("hide");
+        $("#searchSection").addClass("show");
     } else {
         isMenuVisible = false;
-        $('#searchSection').removeClass('show');
-        $('#searchSection').addClass('hide');
+        $("#searchSection").removeClass("show");
+        $("#searchSection").addClass("hide");
     }
 });
 
@@ -16,41 +16,41 @@ var infoWindow;
 // Initialize the map
 function initMap() {
     // Get the map object from google and set the center
-    map = new google.maps.Map(document.getElementById('map'), {
+    map = new google.maps.Map(document.getElementById("map"), {
         center: {lat: 37.3657613, lng: -122.0263439},
         scrollwheel: true,
         zoom: 13,
-        title: 'Neighbourhood Map'
+        title: "Neighbourhood Map"
     });
 
     infoWindow = new google.maps.InfoWindow({
-        content: ''
+        content: ""
     });
 }
 
 function googleError() {
-    console.log("error loading the map,something went wrong")
+    console.log("error loading the map,something went wrong");
 }
 
 var markers = [];
 initPlaces()
     .then(function(places) {
-        initKnockout(places)
+        initKnockout(places);
     })
     .catch(function(errorObj) {
-        $('#mapWrapper').hide();
-        alert('Some error happened. Please reload');
+        $("#mapWrapper").hide();
+        alert("Some error happened. Please reload");
     });
 
 // Query Foursquare API using a promise
 function initPlaces() {
     return new Promise(function(resolve, reject) {
         var places = [];
-        var url = 'https://api.foursquare.com/v2/venues/search?query=park&ll=37.3657613,-122.0263439&client_id=540N2UYO3SXINU0TCI0PYIDX5Z5011RUOT44DNELWF4PFP5S&client_secret=GMNBLBPTDC2BTY1PUFKTKO2OE0BAHO10JTMJQIAU5DTB1KDU&v=20170919&limit=15';
+        var url = "https://api.foursquare.com/v2/venues/search?query=park&ll=37.3657613,-122.0263439&client_id=540N2UYO3SXINU0TCI0PYIDX5Z5011RUOT44DNELWF4PFP5S&client_secret=GMNBLBPTDC2BTY1PUFKTKO2OE0BAHO10JTMJQIAU5DTB1KDU&v=20170919&limit=15";
 
         $.ajax({
-            type: 'get',
-            datatype: 'json',
+            type: "get",
+            datatype: "json",
             url: url,
             success: function(data) {
                 var counter = 1;
@@ -59,7 +59,7 @@ function initPlaces() {
                         lat: venue.location.lat,
                         lng: venue.location.lng,
                         name: venue.name,
-                        address: venue.location.address ? venue.location.address : 'No address available',
+                        address: venue.location.address ? venue.location.address : "No address available",
                         formattedAddress: getFormattedAddress(venue.location.formattedAddress),
                         id: counter
                     });
@@ -73,26 +73,26 @@ function initPlaces() {
             }
         });
     });
+}
 
-    function getFormattedAddress(addressArray) {
-        var result = '';
-        if (addressArray > '' && addressArray instanceof Array) {
-            addressArray.forEach(function addressPoint(address) {
-                result = result + address + '\n';
-            });
-        }
-        return result;
+function getFormattedAddress(addressArray) {
+    var result = "";
+    if (addressArray > "" && addressArray instanceof Array) {
+        addressArray.forEach(function addressPoint(address) {
+            result = result + address + "\n";
+        });
     }
+    return result;
 }
 
 // Implemented knockout approach to filtered the places and display the list of items
 function initKnockout(places) {
     var viewModel = {
-        filter: ko.observable(''),
+        filter: ko.observable(""),
         nearByParks: ko.observableArray(places),
         showInfo: function () {
-            var parkMarker = markers[this.id - 1];
-            google.maps.event.trigger(parkMarker.marker, 'click');
+            var parkMarker = markers[places.id - 1];
+            google.maps.event.trigger(parkMarker.marker, "click");
         }
     };
 
@@ -105,7 +105,7 @@ function initKnockout(places) {
             }else {
                 markers.forEach(function(parksMarker){
                     parksMarker.marker.setVisible(true);
-                })
+                });
             }
             return nearByParks;
         } else {
@@ -164,7 +164,7 @@ function addMarkerWithTimeout(place, timeout) {
             place: place
         });
 
-        marker.addListener('click', function () {
+        marker.addListener("click", function () {
             window.setTimeout(function () {
                 map.panTo(marker.getPosition());
             }, 1000);
@@ -172,7 +172,7 @@ function addMarkerWithTimeout(place, timeout) {
             marker.setAnimation(google.maps.Animation.BOUNCE);
             setTimeout(function(){ marker.setAnimation(null); }, 1400);
 
-            infoWindow.setContent('<b>' + place.name+ '</b>' + '<br>' + place.formattedAddress);
+            infoWindow.setContent("<b>" + place.name+ "</b>" + "<br>" + place.formattedAddress);
             infoWindow.open(map, marker);
         });
 
