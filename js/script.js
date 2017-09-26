@@ -28,8 +28,8 @@ function initMap() {
     });
 }
 
-function googleError() {
-    console.log("error loading the map,something went wrong");
+    function googleError() {
+    alert("error loading the map,something went wrong");
 }
 
 var markers = [];
@@ -91,7 +91,7 @@ function initKnockout(places) {
         filter: ko.observable(""),
         nearByParks: ko.observableArray(places),
         showInfo: function () {
-            var parkMarker = markers[places.id - 1];
+            var parkMarker = markers[this.id - 1];
             google.maps.event.trigger(parkMarker.marker, "click");
         }
     };
