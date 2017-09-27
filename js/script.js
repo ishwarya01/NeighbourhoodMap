@@ -46,7 +46,7 @@ initPlaces()
 function initPlaces() {
     return new Promise(function(resolve, reject) {
         var places = [];
-        var url = "https://api.foursquare.com/v2/venues/search?query=park&ll=37.3657613,-122.0263439&client_id=540N2UYO3SXINU0TCI0PYIDX5Z5011RUOT44DNELWF4PFP5S&client_secret=GMNBLBPTDC2BTY1PUFKTKO2OE0BAHO10JTMJQIAU5DTB1KDU&v=20170919&limit=15";
+        var url = "https://api.foursquare.com/v2/venues/search?query=park&ll=37.3657613,-122.0263439&client_id=540N2UYO3SXINU0TCI0PYIDX5Z5011RUOT44DNELWF4PFP5S&client_secret=GMNBLBPTDC2BTY1PUFKTKO2OE0BAHO10JTMJQIAU5DTB1KDU&v=20170919&limit=40";
 
         $.ajax({
             type: "get",

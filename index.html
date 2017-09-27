@@ -24,7 +24,7 @@
         <input class="form-control" placeholder="Search for parks" data-bind="value: filter, valueUpdate: 'afterkeydown'" />
     </div>
     <div class="row">
-        <div class="list-group" data-bind="foreach: filteredItems">
+        <div class="list-group item " data-bind="foreach: filteredItems">
             <a href="#" class="list-group-item" data-bind="text: $data.name, click: $parent.showInfo"></a>
         </div>
     </div>
